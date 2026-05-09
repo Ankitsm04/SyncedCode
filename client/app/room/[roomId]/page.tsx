@@ -269,7 +269,7 @@ export default function RoomPage() {
             <div>
 
               <h1 className="font-bold text-lg">
-                SyncCode
+                SyncedCode
               </h1>
 
               <p className="text-xs text-zinc-400">
