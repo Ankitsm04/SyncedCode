@@ -1,10 +1,6 @@
 # 🚀 SyncedCode
 
 <p align="center">
-  <img src="./banner.png" alt="SyncedCode Banner" />
-</p>
-
-<p align="center">
   Real-time collaborative coding workspace built with MERN, WebSockets, Monaco Editor, and Next.js.
 </p>
 
@@ -36,13 +32,11 @@
 
 ## Collaborative Workspace
 
-<img src="./screenshots/workspace.png" alt="Workspace" />
+<img src="./screenshots/main" alt="Workspace" />
 
 ---
 
 ## Live Users + Cursor Tracking
-
-<img src="./screenshots/users.png" alt="Users" />
 
 ---
 
