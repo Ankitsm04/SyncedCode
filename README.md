@@ -32,7 +32,7 @@
 
 ## Collaborative Workspace
 
-<img src="./screenshots/main" alt="Workspace" />
+<img src="./screenshots/main.png" alt="Workspace" />
 
 ---
 
