@@ -16,11 +16,29 @@ import UsersPanel from "../../../components/users/UsersPanel";
 
 import NotesPanel from "../../../components/notes/NotesPanel";
 
+/*
+USER TYPE
+*/
+type User = {
+  socketId: string;
+  username: string;
+};
+
+/*
+ACTIVE EDITOR TYPE
+*/
+type ActiveEditor = {
+  socketId: string;
+  username: string;
+  line: number;
+  column: number;
+};
+
 export default function RoomPage() {
 
   const params = useParams();
 
-  const roomId = params.roomId;
+  const roomId = params.roomId as string;
 
   const [code, setCode] =
     useState("// Start coding...");
@@ -34,11 +52,14 @@ export default function RoomPage() {
   const [notes, setNotes] =
     useState("");
 
+  /*
+  FIXED TYPES
+  */
   const [users, setUsers] =
-    useState([]);
+    useState<User[]>([]);
 
   const [activeEditors, setActiveEditors] =
-    useState([]);
+    useState<ActiveEditor[]>([]);
 
   const [username, setUsername] =
     useState("");
@@ -84,7 +105,7 @@ export default function RoomPage() {
     */
     socket.on(
       "receive-code",
-      (incomingCode) => {
+      (incomingCode: string) => {
 
         setCode(incomingCode);
 
@@ -96,7 +117,7 @@ export default function RoomPage() {
     */
     socket.on(
       "receive-notes",
-      (incomingNotes) => {
+      (incomingNotes: string) => {
 
         setNotes(incomingNotes);
 
@@ -108,7 +129,7 @@ export default function RoomPage() {
     */
     socket.on(
       "room-users",
-      (usersList) => {
+      (usersList: User[]) => {
 
         setUsers(usersList);
 
@@ -120,7 +141,7 @@ export default function RoomPage() {
     */
     socket.on(
       "user-cursor-move",
-      (data) => {
+      (data: ActiveEditor) => {
 
         setActiveEditors((prev) => {
 
@@ -161,16 +182,19 @@ export default function RoomPage() {
   HANDLE CODE CHANGE
   */
   const handleEditorChange = (
-    value
+    value: string | undefined
   ) => {
 
-    setCode(value);
+    const updatedCode =
+      value || "";
+
+    setCode(updatedCode);
 
     socket.emit(
       "code-change",
       {
         roomId,
-        code: value,
+        code: updatedCode,
       }
     );
 
@@ -421,7 +445,7 @@ export default function RoomPage() {
                 <NotesPanel
                   notes={notes}
                   setNotes={(
-                    newNotes
+                    newNotes: string
                   ) => {
 
                     setNotes(
@@ -450,7 +474,9 @@ export default function RoomPage() {
               activeEditors={
                 activeEditors
               }
-              currentUsername={username}
+              currentUsername={
+                username
+              }
             />
 
           </div>
