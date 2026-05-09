@@ -24,28 +24,46 @@ export default function NotesPanel({
 
     immediatelyRender: false,
 
+    /*
+    LOCAL EDITS
+    */
     onUpdate: ({ editor }) => {
 
-      const html = editor.getHTML();
+      const html =
+        editor.getHTML();
 
+      /*
+      SEND TO SOCKET
+      */
       setNotes(html);
 
     },
   });
 
   /*
-  SYNC NOTES
+  HANDLE REMOTE SOCKET UPDATES
   */
   useEffect(() => {
 
     if (!editor) return;
 
     /*
-    PREVENT LOOP
+    AVOID FEEDBACK LOOP
     */
-    if (editor.getHTML() !== notes) {
+    const currentContent =
+      editor.getHTML();
 
-      editor.commands.setContent(notes);
+    if (
+      currentContent !== notes
+    ) {
+
+      /*
+      false = don't trigger onUpdate
+      */
+      editor.commands.setContent(
+        notes,
+        false
+      );
 
     }
 
@@ -60,12 +78,16 @@ export default function NotesPanel({
       <div className="flex items-center gap-2 p-3 border-b border-white/10 flex-wrap">
 
         <h2 className="text-lg font-bold mr-4">
-          SyncedNotes Tab
+          SyncedNotes
         </h2>
 
         <button
           onClick={() =>
-            editor.chain().focus().toggleBold().run()
+            editor
+              .chain()
+              .focus()
+              .toggleBold()
+              .run()
           }
           className="px-3 py-1 bg-zinc-800 rounded hover:bg-zinc-700 transition"
         >
@@ -74,7 +96,11 @@ export default function NotesPanel({
 
         <button
           onClick={() =>
-            editor.chain().focus().toggleItalic().run()
+            editor
+              .chain()
+              .focus()
+              .toggleItalic()
+              .run()
           }
           className="px-3 py-1 bg-zinc-800 rounded hover:bg-zinc-700 transition"
         >
@@ -83,7 +109,13 @@ export default function NotesPanel({
 
         <button
           onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({
+                level: 1,
+              })
+              .run()
           }
           className="px-3 py-1 bg-zinc-800 rounded hover:bg-zinc-700 transition"
         >
